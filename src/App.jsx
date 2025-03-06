@@ -1,3 +1,4 @@
+import HomeBanner from "./componennts/HomeBanner"
 import Movies from "./componennts/Movies"
 import Navbar from "./componennts/Navbar"
 import WatchList from "./componennts/WatchList"
@@ -9,8 +10,8 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Movies/>}></Route>
-        <Route path="/watchlist" element={<WatchList/>}></Route>
+        <Route path="/" element={<><HomeBanner /><Movies /></>}></Route>
+        <Route path="/watchlist" element={<WatchList />}></Route>
       </Routes>
     </BrowserRouter>
   )

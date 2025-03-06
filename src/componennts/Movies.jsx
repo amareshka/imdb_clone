@@ -1,6 +1,10 @@
+import HomeBanner from "./HomeBanner"
+
 function Movies() {
     return (
-        <h1>Movies Component</h1>
+        <>
+        <div>Movies Component</div>
+        </>
     )
 }
 
