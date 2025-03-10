@@ -35,7 +35,7 @@ function App() {
     } else {
       setwatchlist(JSON.parse(moviesFromLocalStorage));
     }
-  },[]);
+  }, []);
 
   return (
     <BrowserRouter>
@@ -56,7 +56,9 @@ function App() {
         ></Route>
         <Route
           path="/watchlist"
-          element={<WatchList watchlist={watchlist} />}
+          element={
+            <WatchList watchlist={watchlist} setwatchlist={setwatchlist} />
+          }
         ></Route>
       </Routes>
     </BrowserRouter>
