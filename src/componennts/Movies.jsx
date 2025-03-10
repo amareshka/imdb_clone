@@ -21,7 +21,6 @@ function Movies() {
       <div className="flex flex-row flex-wrap justify-around gap-8">
         {console.log(moviesArr)}
         {moviesArr.map((movie, index) => {
-          
           return <MovieCard key={index} name={movie.title} poster={movie.poster} />
         })}
 
