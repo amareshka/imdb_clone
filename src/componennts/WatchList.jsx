@@ -1,9 +1,25 @@
 import { useEffect, useState } from "react";
 
-function WatchList({ watchlist, setwatchlist }) {
+function WatchList({ watchlist, setwatchlist, handleRemoveFromWatchList }) {
     const [search, setSearch] = useState("");
+    const [genreList, setGenreList] = useState(["All Genre"]);
+    const [currentGenre, setCurrentGenre] = useState("All Genre");
+
+    useEffect(() => {
+        let tempGenreList = watchlist.map((watchItem) => {
+            return watchItem.genre[0];
+        });
+        tempGenreList = new Set(tempGenreList);
+
+        setGenreList(["All Genre", ...tempGenreList]);
+    }, [watchlist]);
+
     const handleSearch = (e) => {
         setSearch(e.target.value);
+    };
+
+    const handleFilter = (genre) => {
+        setCurrentGenre(genre);
     };
 
     const handleSortAscending = () => {
@@ -25,11 +41,21 @@ function WatchList({ watchlist, setwatchlist }) {
     return (
         <>
             <div className="flex justify-center text-center my-4">
-                <div className="bg-blue-500 mx-4 p-2 rounded-lg font-bold">Action</div>
-                <div className="bg-yellow-800 mx-4 p-2 rounded-lg font-bold">
-                    Comedy
-                </div>
-                <div className="bg-red-800 mx-4 p-2 rounded-lg font-bold">Horror</div>
+                {genreList.map((genre, index) => {
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => handleFilter(genre)}
+                            className={
+                                currentGenre == genre
+                                    ? "bg-blue-500 mx-4 p-2 rounded-lg font-bold text-white hover:cursor-pointer"
+                                    : "bg-gray-500/60 mx-4 p-2 rounded-lg hover:cursor-pointer"
+                            }
+                        >
+                            {genre}
+                        </div>
+                    );
+                })}
             </div>
 
             <div className="m-4 flex justify-center">
@@ -93,6 +119,13 @@ function WatchList({ watchlist, setwatchlist }) {
                     <tbody>
                         {watchlist
                             .filter((movieObj) => {
+                                if (currentGenre == "All Genre") {
+                                    return true;
+                                } else {
+                                    return movieObj.genre[0] == currentGenre;
+                                }
+                            })
+                            .filter((movieObj) => {
                                 return movieObj.title
                                     .toLowerCase()
                                     .includes(search.toLowerCase());
@@ -109,10 +142,13 @@ function WatchList({ watchlist, setwatchlist }) {
                                             <p className="mx-4">{watchItem.title}</p>
                                         </td>
                                         <td>{watchItem.rating}</td>
-                                        <td>{watchItem.genre.toString()}</td>
+                                        <td>{watchItem.genre[0]}</td>
                                         <td>{watchItem.boxOffice}</td>
                                         <td>
-                                            <span className="text-red-900/80 font-bold hover:cursor-pointer">
+                                            <span
+                                                onClick={() => handleRemoveFromWatchList(watchItem)}
+                                                className="text-red-900/80 px-4 font-bold hover:cursor-pointer"
+                                            >
                                                 Delete
                                             </span>
                                         </td>
